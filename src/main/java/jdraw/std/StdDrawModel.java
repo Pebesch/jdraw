@@ -5,6 +5,8 @@
 
 package jdraw.std;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import jdraw.framework.DrawCommandHandler;
@@ -20,36 +22,37 @@ import jdraw.framework.Figure;
  *
  */
 public class StdDrawModel implements DrawModel {
+	private List<Figure> figures;
+	private List<DrawModelListener> listeners;
+
+	public StdDrawModel() {
+		figures = new ArrayList<>();
+		listeners = new ArrayList<>();
+	}
 
 	@Override
 	public void addFigure(Figure f) {
-		// TODO to be implemented
-		System.out.println("StdDrawModel.addFigure has to be implemented");
+		figures.add(f);
 	}
 
 	@Override
 	public Stream<Figure> getFigures() {
-		// TODO to be implemented  
-		System.out.println("StdDrawModel.getFigures has to be implemented");
-		return Stream.empty(); // Only guarantees, that the application starts -- has to be replaced !!!
+		return figures.stream();
 	}
 
 	@Override
 	public void removeFigure(Figure f) {
-		// TODO to be implemented  
-		System.out.println("StdDrawModel.removeFigure has to be implemented");
+		figures.remove(f);
 	}
 
 	@Override
 	public void addModelChangeListener(DrawModelListener listener) {
-		// TODO to be implemented  
-		System.out.println("StdDrawModel.addModelChangeListener has to be implemented");
+		listeners.add(listener);
 	}
 
 	@Override
 	public void removeModelChangeListener(DrawModelListener listener) {
-		// TODO to be implemented  
-		System.out.println("StdDrawModel.removeModelChangeListener has to be implemented");
+		listeners.remove(listener);
 	}
 
 	/** The draw command handler. Initialized here with a dummy implementation. */
