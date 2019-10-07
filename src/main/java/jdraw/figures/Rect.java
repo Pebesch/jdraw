@@ -9,9 +9,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import jdraw.framework.Figure;
+import jdraw.framework.FigureEvent;
 import jdraw.framework.FigureHandle;
 import jdraw.framework.FigureListener;
 
@@ -23,6 +26,7 @@ import jdraw.framework.FigureListener;
  */
 public class Rect implements Figure {
 	private static final long serialVersionUID = 9120181044386552132L;
+	private List<FigureListener> listeners;
 
 	/**
 	 * Use the java.awt.Rectangle in order to save/reuse code.
@@ -37,7 +41,9 @@ public class Rect implements Figure {
 	 * @param h the rectangle's height
 	 */
 	public Rect(int x, int y, int w, int h) {
+		this.listeners = new CopyOnWriteArrayList<>();
 		rectangle = new Rectangle(x, y, w, h);
+		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 
 	/**
@@ -50,18 +56,19 @@ public class Rect implements Figure {
 		g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		g.setColor(Color.BLACK);
 		g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 	
 	@Override
 	public void setBounds(Point origin, Point corner) {
 		rectangle.setFrameFromDiagonal(origin, corner);
-		// TODO notification of change
+		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 
 	@Override
 	public void move(int dx, int dy) {
 		rectangle.setLocation(rectangle.x + dx, rectangle.y + dy);
-		// TODO notification of change
+		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 
 	@Override
@@ -86,12 +93,12 @@ public class Rect implements Figure {
 
 	@Override
 	public void addFigureListener(FigureListener listener) {
-		// TODO Auto-generated method stub
+		listeners.add(listener);
 	}
 
 	@Override
 	public void removeFigureListener(FigureListener listener) {
-		// TODO Auto-generated method stub
+		listeners.remove(listener);
 	}
 
 	@Override
