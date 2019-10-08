@@ -33,7 +33,7 @@ public class StdDrawModel implements DrawModel, FigureListener {
 		if(!figures.contains(f)) {
 			f.addFigureListener(this);
 			figures.add(f);
-			listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.FIGURE_ADDED)));
+			notifyAllListenerOfEvent(f, DrawModelEvent.Type.FIGURE_ADDED);
 		}
 	}
 
@@ -47,7 +47,7 @@ public class StdDrawModel implements DrawModel, FigureListener {
 		if(figures.contains(f)) {
 			f.removeFigureListener(this);
 			figures.remove(f);
-			listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.FIGURE_REMOVED)));
+			notifyAllListenerOfEvent(f, DrawModelEvent.Type.FIGURE_REMOVED);
 		}
 	}
 
@@ -82,20 +82,30 @@ public class StdDrawModel implements DrawModel, FigureListener {
 		for(int i = index + 1; i < figures.size(); i++) {
 			oldFigureAtIndex = figures.set(i, oldFigureAtIndex);
 		}
-		listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.DRAWING_CHANGED)));
+		notifyAllListenerOfEvent(f, DrawModelEvent.Type.DRAWING_CHANGED);
 	}
 
 	@Override
 	public void removeAllFigures() {
 		for (Figure f : figures) {
 			removeFigure(f);
-			listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.DRAWING_CLEARED)));
+			// Todo fires event for each figure, how to resolve?
+			notifyAllListenerOfEvent(f, DrawModelEvent.Type.DRAWING_CLEARED);
 		}
 	}
 
 	@Override
 	public void figureChanged(FigureEvent e) {
 		Figure f = e.getFigure();
-		listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.FIGURE_CHANGED)));
+		notifyAllListenerOfEvent(f, DrawModelEvent.Type.FIGURE_CHANGED);
+	}
+
+	/**
+	 * Notifies all listeners of a given event type.
+	 * @param f Figure that triggers event.
+	 * @param event Triggered event.
+	 */
+	private void notifyAllListenerOfEvent(Figure f, DrawModelEvent.Type event) {
+		listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, event)));
 	}
 }
