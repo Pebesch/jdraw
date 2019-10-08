@@ -43,7 +43,7 @@ public class Rect implements Figure {
 	public Rect(int x, int y, int w, int h) {
 		this.listeners = new CopyOnWriteArrayList<>();
 		rectangle = new Rectangle(x, y, w, h);
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
+		notifyAllListener();
 	}
 
 	/**
@@ -56,19 +56,28 @@ public class Rect implements Figure {
 		g.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
 		g.setColor(Color.BLACK);
 		g.drawRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
+		notifyAllListener();
 	}
 	
 	@Override
 	public void setBounds(Point origin, Point corner) {
 		rectangle.setFrameFromDiagonal(origin, corner);
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
+		notifyAllListener();
 	}
 
+	/**
+	 * Moves the figure by a given distance.
+	 * Upon change triggers listeners.
+	 * Does however not trigger if there is no change.
+	 * @param dx move distance in x direction (argument in pixels)
+	 * @param dy move distance in y direction (argument in pixels)
+	 */
 	@Override
 	public void move(int dx, int dy) {
-		rectangle.setLocation(rectangle.x + dx, rectangle.y + dy);
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
+		if (!(dx == 0 && dy == 0)) {
+			rectangle.setLocation(rectangle.x + dx, rectangle.y + dy);
+			notifyAllListener();
+		}
 	}
 
 	@Override
@@ -106,4 +115,10 @@ public class Rect implements Figure {
 		return null;
 	}
 
+	/**
+	 * Notifies all listener of a Figure change event.
+	 */
+	private void notifyAllListener() {
+		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
+	}
 }

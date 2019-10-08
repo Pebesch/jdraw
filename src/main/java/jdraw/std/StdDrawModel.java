@@ -47,7 +47,7 @@ public class StdDrawModel implements DrawModel, FigureListener {
 		if(figures.contains(f)) {
 			f.removeFigureListener(this);
 			figures.remove(f);
-			listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.DRAWING_CLEARED)));
+			listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.FIGURE_REMOVED)));
 		}
 	}
 
@@ -89,6 +89,7 @@ public class StdDrawModel implements DrawModel, FigureListener {
 	public void removeAllFigures() {
 		for (Figure f : figures) {
 			removeFigure(f);
+			listeners.forEach(l -> l.modelChanged(new DrawModelEvent(this, f, DrawModelEvent.Type.DRAWING_CLEARED)));
 		}
 	}
 
