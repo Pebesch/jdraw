@@ -6,14 +6,11 @@
 package jdraw.figures;
 
 import jdraw.framework.Figure;
-import jdraw.framework.FigureEvent;
-import jdraw.framework.FigureHandle;
 import jdraw.framework.FigureListener;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Represents ovals in JDraw.
@@ -21,7 +18,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author Peter Schmucki
  *
  */
-public class Oval implements Figure {
+public class Oval extends AbstractRectangularFigure implements Figure {
 	private static final long serialVersionUID = 9120181044386552132L;
 	private List<FigureListener> listeners;
 
@@ -38,9 +35,8 @@ public class Oval implements Figure {
 	 * @param h the oval's height
 	 */
 	public Oval(int x, int y, int w, int h) {
-		this.listeners = new CopyOnWriteArrayList<>();
+		super(x, y, w, h);
 		oval = new Ellipse2D.Double(x, y, w, h);
-		notifyAllListener();
 	}
 
 	/**
@@ -87,37 +83,5 @@ public class Oval implements Figure {
 	@Override
 	public Rectangle getBounds() {
 		return oval.getBounds();
-	}
-
-	/**
-	 * Returns a list of 8 handles for this Oval.
-	 * @return all handles that are attached to the targeted figure.
-	 * @see Figure#getHandles()
-	 */	
-	@Override
-	public List<FigureHandle> getHandles() {
-		return null;
-	}
-
-	@Override
-	public void addFigureListener(FigureListener listener) {
-		listeners.add(listener);
-	}
-
-	@Override
-	public void removeFigureListener(FigureListener listener) {
-		listeners.remove(listener);
-	}
-
-	@Override
-	public Figure clone() {
-		return null;
-	}
-
-	/**
-	 * Notifies all listener of a Figure change event.
-	 */
-	private void notifyAllListener() {
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 }

@@ -1,18 +1,12 @@
 package jdraw.figures;
 
 import jdraw.framework.Figure;
-import jdraw.framework.FigureEvent;
-import jdraw.framework.FigureHandle;
-import jdraw.framework.FigureListener;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
-public class Line implements Figure {
+public class Line extends AbstractFigure implements Figure {
     private static final long serialVersionUID = 0;
-    private List<FigureListener> listeners;
 
     /**
      * Use the java.awt.Rectangle in order to save/reuse code.
@@ -27,9 +21,8 @@ public class Line implements Figure {
      * @param y2 y destination
      */
     public Line(int x1, int y1, int x2, int y2) {
-        this.listeners = new CopyOnWriteArrayList<>();
+        super(x1, y1);
         line = new Line2D.Double(x1, y1, x2, y2);
-        notifyAllListener();
     }
 
     /**
@@ -72,37 +65,5 @@ public class Line implements Figure {
     @Override
     public Rectangle getBounds() {
         return line.getBounds();
-    }
-
-    /**
-     * Returns a list of 8 handles of the line
-     * @return all handles that are attached to the targeted figure.
-     * @see jdraw.framework.Figure#getHandles()
-     */
-    @Override
-    public List<FigureHandle> getHandles() {
-        return null;
-    }
-
-    @Override
-    public void addFigureListener(FigureListener listener) {
-        listeners.add(listener);
-    }
-
-    @Override
-    public void removeFigureListener(FigureListener listener) {
-        listeners.remove(listener);
-    }
-
-    @Override
-    public Figure clone() {
-        return null;
-    }
-
-    /**
-     * Notifies all listener of a Figure change event.
-     */
-    private void notifyAllListener() {
-        listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
     }
 }

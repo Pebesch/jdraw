@@ -9,14 +9,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import jdraw.framework.Figure;
-import jdraw.framework.FigureEvent;
-import jdraw.framework.FigureHandle;
-import jdraw.framework.FigureListener;
 
 /**
  * Represents rectangles in JDraw.
@@ -24,9 +18,8 @@ import jdraw.framework.FigureListener;
  * @author Christoph Denzler
  *
  */
-public class Rect implements Figure {
+public class Rect extends AbstractRectangularFigure implements Figure {
 	private static final long serialVersionUID = 9120181044386552132L;
-	private List<FigureListener> listeners;
 
 	/**
 	 * Use the java.awt.Rectangle in order to save/reuse code.
@@ -41,9 +34,8 @@ public class Rect implements Figure {
 	 * @param h the rectangle's height
 	 */
 	public Rect(int x, int y, int w, int h) {
-		this.listeners = new CopyOnWriteArrayList<>();
+		super(x, y, w, h);
 		rectangle = new Rectangle(x, y, w, h);
-		notifyAllListener();
 	}
 
 	/**
@@ -88,37 +80,5 @@ public class Rect implements Figure {
 	@Override
 	public Rectangle getBounds() {
 		return rectangle.getBounds();
-	}
-
-	/**
-	 * Returns a list of 8 handles for this Rectangle.
-	 * @return all handles that are attached to the targeted figure.
-	 * @see jdraw.framework.Figure#getHandles()
-	 */	
-	@Override
-	public List<FigureHandle> getHandles() {
-		return null;
-	}
-
-	@Override
-	public void addFigureListener(FigureListener listener) {
-		listeners.add(listener);
-	}
-
-	@Override
-	public void removeFigureListener(FigureListener listener) {
-		listeners.remove(listener);
-	}
-
-	@Override
-	public Figure clone() {
-		return null;
-	}
-
-	/**
-	 * Notifies all listener of a Figure change event.
-	 */
-	private void notifyAllListener() {
-		listeners.forEach(l -> l.figureChanged(new FigureEvent(this)));
 	}
 }
