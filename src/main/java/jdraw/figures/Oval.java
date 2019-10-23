@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class Oval extends AbstractRectangularFigure implements Figure {
 	private static final long serialVersionUID = 9120181044386552132L;
-	private List<FigureListener> listeners;
 
 	/**
 	 * Use the java.awt.geom.Ellipse2D.Double in order to save/reuse code.
@@ -68,7 +67,6 @@ public class Oval extends AbstractRectangularFigure implements Figure {
 	@Override
 	public void move(int dx, int dy) {
 		if (!(dx == 0 && dy == 0)) {
-			//oval.setFrame(oval.x + dx, oval.y + dy, oval.height, oval.width);
 			oval.x += dx;
 			oval.y += dy;
 			notifyAllListener();

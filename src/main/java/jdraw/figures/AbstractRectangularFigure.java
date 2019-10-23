@@ -1,5 +1,6 @@
 package jdraw.figures;
 
+import java.awt.*;
 import java.awt.geom.RectangularShape;
 
 /**
@@ -7,7 +8,6 @@ import java.awt.geom.RectangularShape;
  */
 public abstract class AbstractRectangularFigure extends AbstractFigure{
     private int width, length;
-    private RectangularShape shape;
 
     public AbstractRectangularFigure(int x, int y, int width, int length) {
         super(x, y);
