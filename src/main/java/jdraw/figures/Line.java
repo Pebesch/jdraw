@@ -4,25 +4,16 @@ import jdraw.framework.Figure;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 
-public class Line extends AbstractFigure implements Figure {
+public class Line extends AbstractFigure {
     private static final long serialVersionUID = 0;
+    private Point origin, corner;
+    private Line2D line;
 
-    /**
-     * Use the java.awt.Rectangle in order to save/reuse code.
-     */
-    private final Line2D.Double line;
-
-    /**
-     * Create a new Line with the specified coordinates
-     * @param x1 x origin
-     * @param y1 y origin
-     * @param x2 x destination
-     * @param y2 y destination
-     */
-    public Line(int x1, int y1, int x2, int y2) {
-        super(x1, y1);
-        line = new Line2D.Double(x1, y1, x2, y2);
+    public Line(Point origin) {
+        this.origin = origin;
+        line = new Line2D.Double(origin, origin);
     }
 
     /**
@@ -31,28 +22,27 @@ public class Line extends AbstractFigure implements Figure {
      */
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.drawLine((int)line.x1, (int)line.y1, (int)line.x2, (int)line.y2);
-        notifyAllListener();
+        if(corner != null) {
+            g.setColor(Color.BLACK);
+            g.drawLine(origin.x, origin.y, corner.x, corner.y);
+            notifyAllListener();
+        }
     }
 
     @Override
     public void setBounds(Point origin, Point corner) {
+        this.corner = corner;
+        Line2D original = new Line2D.Double(origin, corner);
         line.setLine(origin, corner);
-        notifyAllListener();
+        if(!original.equals(line)) {
+            notifyAllListener();
+        }
     }
 
-    /**
-     * Moves the figure by a given distance.
-     * Upon change triggers listeners.
-     * Does however not trigger if there is no change.
-     * @param dx move distance in x direction (argument in pixels)
-     * @param dy move distance in y direction (argument in pixels)
-     */
     @Override
     public void move(int dx, int dy) {
         if (!(dx == 0 && dy == 0)) {
-            line.setLine(line.x1 + dx, line.y1 + dx, line.x2 + dx, line.y2 + dx);
+            line.setLine(line.getX1() + dx, line.getY1() + dy, line.getX2() + dx, line.getY2() + dy);
             notifyAllListener();
         }
     }

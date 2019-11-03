@@ -5,6 +5,8 @@ import jdraw.framework.FigureEvent;
 import jdraw.framework.FigureHandle;
 import jdraw.framework.FigureListener;
 
+import java.awt.*;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -12,16 +14,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * Abstract class implementation for all figures.
  */
 public abstract class AbstractFigure implements Figure {
-    // All figures have a x, y origin point (upper-left corner)
-    private int originX, originY;
-    private List<FigureListener> listeners;
-
-    public AbstractFigure(int x, int y) {
-        this.listeners = new CopyOnWriteArrayList<>();
-        this.originX = x;
-        this.originY = y;
-        notifyAllListener();
-    }
+    private final List<FigureListener> listeners = new CopyOnWriteArrayList();
+    private final List<FigureHandle> handles = new LinkedList<>();
 
     /**
      * Returns a list of 8 handles for this Rectangle.
@@ -30,12 +24,19 @@ public abstract class AbstractFigure implements Figure {
      */
     @Override
     public List<FigureHandle> getHandles() {
-        return null;
+        return handles;
+    }
+
+    public void addHandle(FigureHandle handle) {
+        if(handle != null && !handles.contains(handle)) {
+            this.handles.add(handle);
+        }
     }
 
     @Override
     public void addFigureListener(FigureListener listener) {
-        listeners.add(listener);
+        if(listener != null && !listeners.contains(listener))
+            listeners.add(listener);
     }
 
     @Override

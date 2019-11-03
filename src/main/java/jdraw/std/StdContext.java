@@ -168,11 +168,11 @@ public class StdContext extends AbstractContext {
 	@Override
 	protected void doRegisterDrawTools() {
 		// TODO Add new figure tools here
-		DrawTool rectangleTool = new RectTool(this);
+		DrawTool rectangleTool = new RectTool(this, "Rectangle", "rectangle.png");
 		addTool(rectangleTool);
-		DrawTool ovalTool = new OvalTool(this);
+		DrawTool ovalTool = new OvalTool(this, "Oval", "oval.png");
 		addTool(ovalTool);
-		DrawTool lineTool = new LineTool(this);
+		DrawTool lineTool = new LineTool(this, "Line", "line.png");
 		addTool(lineTool);
 	}
 

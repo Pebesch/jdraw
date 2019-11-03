@@ -20,7 +20,8 @@ public class RectangleTest {
 
 	@BeforeEach
 	public void setUp() {
-		f = new Rect(1, 1, 20, 10);
+		f = new Rect(new Point(1, 1));
+		f.setBounds(new Point(1, 1), new Point(21, 21));
 		cnt = 0;
 	}
 
@@ -63,7 +64,8 @@ public class RectangleTest {
 	@Test
 	final public void testCycle() {
 		Figure f1 = f;
-		Figure f2 = new Rect(10, 10, 10, 10);
+		Figure f2 = new Rect(new Point(10, 10));
+		f2.setBounds(new Point(10, 10), new Point(10,10));
 		f1.addFigureListener(new UpdateListener(f2));
 		f2.addFigureListener(new UpdateListener(f1));
 		
