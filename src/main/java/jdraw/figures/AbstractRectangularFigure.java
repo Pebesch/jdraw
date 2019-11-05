@@ -1,7 +1,8 @@
 package jdraw.figures;
 
+import jdraw.figures.handles.*;
+
 import java.awt.*;
-import java.awt.geom.RectangularShape;
 
 /**
  * AbstractRectangularFigure implements common methods for all rectangular-like shapes
@@ -11,6 +12,10 @@ public abstract class AbstractRectangularFigure extends AbstractFigure {
 
     public AbstractRectangularFigure(Point origin) {
         rectangle = new Rectangle(origin);
+        addHandle(new Handle(this, new NWState(this), Color.RED));
+        addHandle(new Handle(this, new SWState(this), Color.BLUE));
+        addHandle(new Handle(this, new NEState(this), Color.GREEN));
+        addHandle(new Handle(this, new SEState(this), Color.YELLOW));
     }
 
     public void setBounds(Point origin, Point corner) {

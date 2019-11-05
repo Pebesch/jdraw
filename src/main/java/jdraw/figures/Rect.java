@@ -5,13 +5,7 @@
 
 package jdraw.figures;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
-
-import jdraw.figures.handles.NorthWestHandle;
-import jdraw.framework.Figure;
+import java.awt.*;
 
 /**
  * Represents rectangles in JDraw.
@@ -24,7 +18,6 @@ public class Rect extends AbstractRectangularFigure {
 
 	public Rect(Point point) {
 		super(point);
-		//addHandle(new NorthWestHandle(this));
 	}
 
 	/**

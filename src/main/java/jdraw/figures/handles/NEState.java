@@ -1,0 +1,32 @@
+package jdraw.figures.handles;
+
+import jdraw.framework.Figure;
+
+import java.awt.*;
+
+public class NEState extends AbstractHandleState {
+
+    public NEState(Figure owner) {
+        super(owner);
+    }
+
+    @Override
+    public Point getLocation() {
+        return new Point(getOwner().getBounds().x + getOwner().getBounds().width, getOwner().getBounds().y);
+    }
+
+    @Override
+    public Cursor getCursor() {
+        return Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
+    }
+
+    @Override
+    public HandleState swapHorizontal() {
+        return new SEState(getOwner());
+    }
+
+    @Override
+    public HandleState swapVertical() {
+        return new NWState(getOwner());
+    }
+}

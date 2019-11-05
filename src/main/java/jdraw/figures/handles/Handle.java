@@ -7,11 +7,16 @@ import jdraw.framework.FigureHandle;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 
-public class NorthWestHandle implements FigureHandle {
+public class Handle implements FigureHandle {
     private Figure owner;
+    private HandleState state;
+    private Color color;
+    private Point corner;
 
-    public NorthWestHandle(Figure owner) {
+    public Handle(Figure owner, HandleState state, Color color) {
         this.owner = owner;
+        this.state = state;
+        this.color = color;
     }
 
     @Override
@@ -21,13 +26,13 @@ public class NorthWestHandle implements FigureHandle {
 
     @Override
     public Point getLocation() {
-        return owner.getBounds().getLocation();
+        return state.getLocation();
     }
 
     @Override
     public void draw(Graphics g) {
         Point loc = getLocation();
-        g.setColor(Color.WHITE);
+        g.setColor(color);
         g.fillRect(loc.x - 3, loc.y - 3, 6, 6);
         g.setColor(Color.BLACK);
         g.drawRect(loc.x - 3, loc.y - 3, 6, 6);
@@ -35,7 +40,7 @@ public class NorthWestHandle implements FigureHandle {
 
     @Override
     public Cursor getCursor() {
-        return Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
+        return state.getCursor();
     }
 
     @Override
@@ -47,16 +52,16 @@ public class NorthWestHandle implements FigureHandle {
 
     @Override
     public void startInteraction(int x, int y, MouseEvent e, DrawView v) {
-
+        corner = state.getAnchor().getLocation();
     }
 
     @Override
     public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-
+        state.dragInteraction(x, y, e, v);
     }
 
     @Override
     public void stopInteraction(int x, int y, MouseEvent e, DrawView v) {
-
+        corner = null;
     }
 }
