@@ -50,6 +50,10 @@ public class Handle implements FigureHandle {
         return handle.contains(x, y);
     }
 
+    public void setState(HandleState state) {
+        this.state = state;
+    }
+
     @Override
     public void startInteraction(int x, int y, MouseEvent e, DrawView v) {
         corner = state.getAnchor().getLocation();

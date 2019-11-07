@@ -49,7 +49,7 @@ public class Line extends AbstractFigure {
 
     @Override
     public boolean contains(int x, int y) {
-        return line.contains(x, y);
+        return line.ptSegDistSq(x,y) < 6;
     }
 
     @Override

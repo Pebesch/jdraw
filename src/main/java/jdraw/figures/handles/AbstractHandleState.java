@@ -2,6 +2,8 @@ package jdraw.figures.handles;
 
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
+import jdraw.framework.FigureHandle;
+import jdraw.framework.FigureListener;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -26,14 +28,20 @@ public abstract class AbstractHandleState implements HandleState {
 
     @Override
     public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-        Rectangle r = getOwner().getBounds();
-        getOwner().setBounds(new Point(x,y), new Point(r.x + r.width, r.y + r.height));
-        if(x > r.x + r.width) {
-            swapHorizontal();
+        System.out.println(getAnchor().getClass().toString());
+        System.out.println("x: " + getAnchor().getOwner().getBounds().x);
+        System.out.println("y: " + getAnchor().getOwner().getBounds().y);
+        getOwner().setBounds(new Point(x,y), getAnchor().getLocation());
+/*        if(x > getOwner().getBounds().x + getOwner().getBounds().width) {
+            for(FigureHandle handle : getOwner().getHandles()) {
+                ((Handle)handle).setState(swapHorizontal());
+            }
         }
-        if(y > r.y + r.height) {
-            swapVertical();
-        }
+        if(y > getOwner().getBounds().y + getOwner().getBounds().height) {
+            for(FigureHandle handle : getOwner().getHandles()) {
+                ((Handle)handle).setState(swapVertical());
+            }
+        }*/
     }
 
     @Override

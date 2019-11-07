@@ -1,8 +1,10 @@
 package jdraw.figures.handles;
 
+import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
 public class NEState extends AbstractHandleState {
 
