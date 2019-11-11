@@ -1,5 +1,6 @@
 package jdraw.figures.handles;
 
+import jdraw.figures.AbstractRectangularFigure;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
 import jdraw.framework.FigureHandle;
@@ -30,22 +31,20 @@ public class NWState extends AbstractHandleState {
     public void dragInteraction(int x, int y, MouseEvent e, DrawView v, Point anchor) {
         super.dragInteraction(x, y, e, v, anchor);
         if(x == (getOwner().getBounds().x + getOwner().getBounds().width)) {
-
+            ((AbstractRectangularFigure)getOwner()).swapHorizontal();
         }
         if(y == (getOwner().getBounds().y + getOwner().getBounds().height)) {
-
+            ((AbstractRectangularFigure)getOwner()).swapVertical();
         }
     }
 
     @Override
     public HandleState swapHorizontal() {
-        System.out.println("NW swapped horizontal");
-        return new SWState(getOwner());
+        return new NEState(getOwner());
     }
 
     @Override
     public HandleState swapVertical() {
-        System.out.println("NW swapped vertical");
-        return new NEState(getOwner());
+        return new SWState(getOwner());
     }
 }

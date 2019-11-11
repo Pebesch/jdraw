@@ -1,6 +1,7 @@
 package jdraw.figures;
 
 import jdraw.figures.handles.*;
+import jdraw.framework.FigureHandle;
 
 import java.awt.*;
 
@@ -16,6 +17,20 @@ public abstract class AbstractRectangularFigure extends AbstractFigure {
         addHandle(new Handle(this, new SWState(this), Color.BLUE));
         addHandle(new Handle(this, new NEState(this), Color.GREEN));
         addHandle(new Handle(this, new SEState(this), Color.YELLOW));
+    }
+
+    public void swapHorizontal() {
+        for(FigureHandle handle : getHandles()) {
+            Handle h = (Handle)handle;
+            h.setState(h.getState().swapHorizontal());
+        }
+    }
+
+    public void swapVertical() {
+        for(FigureHandle handle : getHandles()) {
+            Handle h = (Handle)handle;
+            h.setState(h.getState().swapVertical());
+        }
     }
 
     public void setBounds(Point origin, Point corner) {
