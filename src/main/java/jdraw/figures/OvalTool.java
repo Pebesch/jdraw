@@ -5,32 +5,29 @@
 
 package jdraw.figures;
 
-import java.awt.Cursor;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import jdraw.framework.DrawContext;
 import jdraw.framework.DrawTool;
 import jdraw.framework.DrawView;
 import jdraw.framework.Figure;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 
 /**
  * This tool defines a mode for drawing rectangles.
  *
  * @see jdraw.framework.Figure
  *
- * @author  Christoph Denzler
+ * @author  Peter Schmucki
  */
-public class RectTool extends AbstractDragDrawTool {
-	public RectTool(DrawContext context, String name, String icon) {
+public class OvalTool extends AbstractDragDrawTool {
+	public OvalTool(DrawContext context, String name, String icon) {
 		super(context, name, icon);
 	}
 
 	@Override
-	protected Rect createFigure(Point p) {
-		return new Rect(p);
+	protected Oval createFigure(Point p) {
+		return new Oval(p);
 	}
 }
