@@ -27,27 +27,12 @@ public abstract class AbstractHandleState implements HandleState {
     public abstract Cursor getCursor();
 
     @Override
-    public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-        System.out.println(getAnchor().getClass().toString());
-        System.out.println("x: " + getAnchor().getOwner().getBounds().x);
-        System.out.println("y: " + getAnchor().getOwner().getBounds().y);
-        getOwner().setBounds(new Point(x,y), getAnchor().getLocation());
-/*        if(x > getOwner().getBounds().x + getOwner().getBounds().width) {
-            for(FigureHandle handle : getOwner().getHandles()) {
-                ((Handle)handle).setState(swapHorizontal());
-            }
-        }
-        if(y > getOwner().getBounds().y + getOwner().getBounds().height) {
-            for(FigureHandle handle : getOwner().getHandles()) {
-                ((Handle)handle).setState(swapVertical());
-            }
-        }*/
+    public void dragInteraction(int x, int y, MouseEvent e, DrawView v, Point anchor) {
+        getOwner().setBounds(new Point(x,y), anchor);
     }
 
     @Override
-    public HandleState getAnchor() {
-        return swapHorizontal().swapVertical();
-    }
+    public abstract HandleState getAnchor();
 
     @Override
     public abstract HandleState swapHorizontal();

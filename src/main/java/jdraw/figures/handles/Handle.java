@@ -50,6 +50,8 @@ public class Handle implements FigureHandle {
         return handle.contains(x, y);
     }
 
+    public HandleState getState() { return this.state; }
+
     public void setState(HandleState state) {
         this.state = state;
     }
@@ -61,7 +63,7 @@ public class Handle implements FigureHandle {
 
     @Override
     public void dragInteraction(int x, int y, MouseEvent e, DrawView v) {
-        state.dragInteraction(x, y, e, v);
+        state.dragInteraction(x, y, e, v, corner);
     }
 
     @Override

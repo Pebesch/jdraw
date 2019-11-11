@@ -11,7 +11,7 @@ public interface HandleState {
     public Point getLocation();
     public HandleState getAnchor();
     public abstract Cursor getCursor();
-    public abstract void dragInteraction(int x, int y, MouseEvent e, DrawView v);
+    public abstract void dragInteraction(int x, int y, MouseEvent e, DrawView v, Point anchor);
     public HandleState swapHorizontal();
     public HandleState swapVertical();
 }

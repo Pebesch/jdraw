@@ -21,6 +21,9 @@ public class SWState extends AbstractHandleState {
     }
 
     @Override
+    public HandleState getAnchor() { return new NEState(getOwner()); }
+
+    @Override
     public HandleState swapHorizontal() {
         return new NWState(getOwner());
     }

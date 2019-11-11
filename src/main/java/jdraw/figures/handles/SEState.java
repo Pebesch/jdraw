@@ -23,6 +23,9 @@ public class SEState extends AbstractHandleState {
     }
 
     @Override
+    public HandleState getAnchor() { return new NWState(getOwner()); }
+
+    @Override
     public HandleState swapHorizontal() {
         return new NEState(getOwner());
     }
